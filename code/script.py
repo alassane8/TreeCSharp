@@ -1,4 +1,5 @@
 import re
+import sys
 from pathlib import Path
 
 ########################################################################################################################
@@ -142,6 +143,7 @@ if fileSLN.endswith('.sln'):
 
     except FileNotFoundError:
         print(FileNotFoundError)
+        sys.exit(0)
 
 ########################################################################################################################
 
@@ -182,9 +184,11 @@ for guid, project in all_projects.items():
         except FileNotFoundError:
             print(FileNotFoundError)
             print(file_to_csproj)
+            sys.exit(0)
         except PermissionError:
             print(PermissionError)
             print(file_to_csproj)
+            sys.exit(0)
         except AttributeError:
             project.framework = ''
 
@@ -229,8 +233,10 @@ try:
 
 except FileNotFoundError:
     print(FileNotFoundError)
+    sys.exit(0)
 except PermissionError:
     print(PermissionError)
+    sys.exit(0)
 
 ########################################################################################################################
 
@@ -249,8 +255,10 @@ try:
 
 except FileNotFoundError:
     print(FileNotFoundError)
+    sys.exit(0)
 except PermissionError:
     print(PermissionError)
+    sys.exit(0)
 
 ########################################################################################################################
 
@@ -265,7 +273,9 @@ try:
         print("Build successful: \n=> Check for .txt files updates in this script's folder.")
 except FileNotFoundError:
     print(FileNotFoundError)
+    sys.exit(0)
 except PermissionError:
     print(PermissionError)
+    sys.exit(0)
 
 ########################################################################################################################
