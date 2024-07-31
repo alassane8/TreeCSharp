@@ -29,8 +29,31 @@ C# solution.
 From there, different files will be created where you placed 'script.py'.
 
 ## All_Projects.txt
+Gather all the projects in the solution that allow at least one dependency (Mother projects) 
+or at least one project that depends on them (Child projects) .
+This file indicates for each project :
+
+- GUID (Project ID)
+- Framework
+- Path
+- Child and Mother projects that he owns
+
 ## Independent_Projects.txt
+Brings together all the projects in the solution which have no dependencies and for which no 
+project in the solution depends on them. 
+This file indicates for each project :
+
+- Name
+- GUID
+- Framework
+- Path
+
 ## Tree.txt
+Visualization of dependencies between projects as well as the Frameworks linked to these projects
+This file indicates for each project :
+
+- Name
+- Framework
 
 ## Area for improvement
 Here, you can find the features I am currently working on in this repository.
