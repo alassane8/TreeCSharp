@@ -22,7 +22,7 @@ cd TreeCSharp/code
 ```bash
 python script.py
 ```
-## How to use th Script
+## How to use the Script
 You are now ready to use the script ! The goal is to enter the path to your .sln 
 file which is the solution file that registers all the projects dependences of your 
 C# solution.
