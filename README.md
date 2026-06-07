@@ -1,60 +1,99 @@
 <h1 align="center">
-Alassane WADE Tree C# Script
-</h1>  
+Alassane WADE — Tree C# Script
+</h1>
 
 <h2 align="center">
-                                       "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣷⣶⣥⣴⣿ "
-</h2>         
+"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣷⣶⣥⣴⣿"
+</h2>
 
-Tree C#
-A Python script that enables you to see dependencies of a C# solution with a tree display.
+A Python script that parses a C# solution file (`.sln`) and generates three text files visualizing project dependencies, frameworks, and tree structure.
 
-## Open a terminal in full screen.
-- Clone this github repository in the path of your choice: 
+---
+
+## Prerequisites
+
+- **Python 3.10 or higher** (required for type hint syntax used in the code)
+- **Windows only** — paths are parsed using Windows backslash separators (`\`)
+- The `.sln` file and all referenced `.csproj` / `.vcxproj` files must be accessible from the machine running the script
+
+---
+
+## Installation
+
+Clone the repository in the path of your choice:
+
 ```bash
 git clone https://github.com/alassane8/TreeCSharp.git
-```
-- Go to the BattleShip folder :
-```bash
 cd TreeCSharp/code
 ```
-- Run the script: 
-```bash
-python script.py
+
+---
+
+## Project Structure
+
 ```
-## How to use the Script
-You are now ready to use the script ! The goal is to enter the path to your .sln 
-file which is the solution file that registers all the projects dependences of your 
-C# solution.
-From there, different files will be created where you placed 'script.py'.
+code/
+├── main.py          # Entry point — orchestrates the full parsing pipeline
+├── project.py       # Project class definition
+├── open_path.py     # Parses .csproj files for missed references
+├── tree.py          # Recursive tree display function
+└── writers.py       # Generates the three output .txt files
+```
 
-## All_Projects.txt
-Gather all the projects in the solution that allow at least one dependency (Mother projects) 
-or at least one project that depends on them (Child projects) .
-This file indicates for each project :
+---
 
-- GUID (Project ID)
-- Framework
+## Usage
+
+Run the script from the `code/` folder:
+
+```bash
+python main.py
+```
+
+When prompted, enter the **absolute path** to your `.sln` file:
+
+```
+Enter path to .sln file:
+C:\Users\you\Projects\MyApp\MyApp.sln
+```
+
+The three output files will be created in the same folder as `main.py`.
+
+---
+
+## Output Files
+
+### `All_Projects.txt`
+Lists all projects that have at least one dependency or are depended on by another project. For each project:
+- Name and GUID
+- Framework version
+- Path to `.csproj` or `.vcxproj`
+- Child projects (projects that depend on it)
+- Mother projects (projects it depends on)
+
+### `Independent_Projects.txt`
+Lists all projects with no dependencies and no dependents. For each project:
+- Name and GUID
+- Framework version
 - Path
-- Child and Mother projects that he owns
 
-## Independent_Projects.txt
-Brings together all the projects in the solution which have no dependencies and for which no 
-project in the solution depends on them. 
-This file indicates for each project :
+### `Tree.txt`
+A hierarchical view of dependency relationships between projects. Example:
 
-- Name
-- GUID
-- Framework
-- Path
+```
+MyApp.Core: net6.0
+		------- MyApp.Services: net6.0
+		        ------- MyApp.API: net6.0
+MyApp.Shared: net6.0
+```
 
-## Tree.txt
-Visualization of dependencies between projects as well as the Frameworks linked to these projects
-This file indicates for each project :
+---
 
-- Name
-- Framework
+## Common Issues
 
-## Area for improvement
-Here, you can find the features I am currently working on in this repository.
-This allows you to be aware of the changes that are to come and see what needs to be improve. 
+| Error | Likely cause |
+|---|---|
+| `FileNotFoundError` | The path entered is incorrect, or a `.csproj` referenced in the `.sln` has been moved or deleted |
+| `PermissionError` | The script does not have read access to the file — try running as administrator |
+| `Could not retrieve framework` | The `.csproj` file does not contain a `<TargetFramework>` tag (older project formats) |
+| Empty output files | The `.sln` has no inter-project dependencies — all projects may appear in `Independent_Projects.txt` |
